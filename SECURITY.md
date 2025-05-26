@@ -4,6 +4,6 @@ At Silesian Solutions, the security of our projects and our community is of utmo
 
 ## Reporting a Vulnerability
 
-Please send an email with detailed information about the vulnerability to [biuro@silesiansolutions.com]. Include steps to reproduce the issue if applicable, and any other pertinent details.
+Please send an email with detailed information about the vulnerability to biuro@silesiansolutions.com. Include steps to reproduce the issue if applicable, and any other pertinent details.
 
 We value the security of our community and appreciate your support in maintaining a safe and reliable environment.
