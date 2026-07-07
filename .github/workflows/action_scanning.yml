@@ -1,50 +1,68 @@
-name: Scan GitHub Action workflows files for security issues
+name: Scan GitHub Actions workflows
 
 on:
-  pull_request: {}
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "semgrep-rules/actions/**"
   workflow_dispatch: {}
   push:
     paths:
-      - ".github/workflows/**.ya?ml"
+      - ".github/workflows/**"
+      - "semgrep-rules/actions/**"
+
+concurrency:
+  group: action-scanning-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   semgrep:
     name: semgrep-oss/scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+      security-events: write
 
     container:
-      image: semgrep/semgrep
-
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
+      image: semgrep/semgrep:1.168.0@sha256:525beaba156b9bd3f9847d6ec0eb8f308e11f407e0c0b2da641e7c8dd99c97d6
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Checkout Workflow Config
-        uses: actions/checkout@v4
-        env:
-          GH_REPO_OWNER: ${{ github.repository_owner }}
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          repository: "${{ env.GH_REPO_OWNER }}/.github"
-          path: action_scanning
+          persist-credentials: false
 
-      - name: Run Actions semgrep scan
-        run: semgrep scan --sarif --config action_scanning/semgrep-rules/actions >> semgrep-results-actions.sarif
+      - name: Scan workflows
+        run: >-
+          semgrep scan
+          --error
+          --sarif
+          --output semgrep-results-actions.sarif
+          --config semgrep-rules/actions
+          .github/workflows
 
-      - name: Save Actions SARIF results as artifact
-        uses: actions/upload-artifact@v4
+      - name: Save SARIF results
+        if: ${{ always() && hashFiles('semgrep-results-actions.sarif') != '' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: semgrep-scan-results-actions
           path: semgrep-results-actions.sarif
+          retention-days: 7
 
-      - name: Upload Actions SARIF result to the GitHub Security Dashboard
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload SARIF results
+        if: >-
+          ${{
+            always() &&
+            hashFiles('semgrep-results-actions.sarif') != '' &&
+            github.actor != 'dependabot[bot]' &&
+            (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+          }}
+        uses: github/codeql-action/upload-sarif@54f647b7e1bb85c95cddabcd46b0c578ec92bc1a # v4
         with:
           sarif_file: semgrep-results-actions.sarif
-        if: always()
+          category: semgrep-github-actions

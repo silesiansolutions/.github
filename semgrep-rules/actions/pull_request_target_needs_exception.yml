@@ -2,14 +2,18 @@ rules:
   - id: pull-request-target-needs-exception
     languages:
       - yaml
-    severity: WARNING
-    message: pull_request_target for Silesian Solutions repos is only approved by exception.
+    severity: ERROR
+    message: >-
+      pull_request_target runs with target-repository privileges. Use pull_request or obtain an explicit security exception.
     metadata:
       category: best-practice
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      references:
+        - https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
       technology:
         - github-actions
     patterns:
-      - pattern-either:
-          - patterns:
-              - pattern-inside: "{on: ...}"
-              - pattern: pull_request_target
+      - pattern-inside: "{on: ...}"
+      - pattern: pull_request_target
