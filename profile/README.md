@@ -12,7 +12,7 @@
 
 Silesian Solutions designs and builds software for B2B companies: web applications, panels for business processes, B2B shops and integrations between systems. A project starts with what the company is actually missing and ends when the system runs in production and can be developed further.
 
-Requirements are written into the release pipeline rather than into a document. Security, accessibility, consent and technical SEO become assertions that halt the build when they stop being met.
+Requirements are written into the release pipeline rather than into a document. Security, accessibility, consent and technical SEO become assertions that halt the build when they stop being met. An assertion either passes or it fails.
 
 ## Services
 
@@ -23,7 +23,7 @@ Requirements are written into the release pipeline rather than into a document. 
 | [AI and process automation](https://silesiansolutions.com/en/services/ai-and-process-automation/) | Language model integrations, agent tooling built on the Model Context Protocol, classification and extraction from documents, data collection for reporting. |
 | [Custom software](https://silesiansolutions.com/en/services/custom-software/) | Web applications and PWAs, admin panels, B2B shops, portals and searchable catalogues, with maintenance and development after launch. |
 
-The [about page](https://silesiansolutions.com/en/about/) describes how scope and price are set and the checkpoints of a project. The office is in Bielsko-Biała; details on the [contact page](https://silesiansolutions.com/en/contact/).
+The [about page](https://silesiansolutions.com/en/about/) describes how scope and price are set and the checkpoints of a project. The office is in Bielsko-Biała. Address and opening hours are on the [contact page](https://silesiansolutions.com/en/contact/).
 
 ## Open source
 
