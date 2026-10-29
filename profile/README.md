@@ -40,4 +40,4 @@ The [about page](https://silesiansolutions.com/en/about/) describes how scope an
 
 ---
 
-_[Silesian Solutions](https://silesiansolutions.com) also runs [Cyber Katalog](https://github.com/CyberKatalog), the directory of Polish cybersecurity companies._
+_[Silesian Solutions](https://silesiansolutions.com) also runs [Cyber Katalog](https://cyberkatalog.pl/), the directory of Polish cybersecurity companies ([source on GitHub](https://github.com/CyberKatalog))._
